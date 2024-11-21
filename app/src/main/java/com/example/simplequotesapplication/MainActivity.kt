@@ -14,10 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.NotificationCompat.Style
 import com.example.simplequotesapplication.ui.theme.DataManager
 import com.example.simplequotesapplication.ui.theme.SimpleQuotesApplicationTheme
+import com.example.simplequotesapplication.ui.theme.screens.QouteDetails
 import com.example.simplequotesapplication.ui.theme.screens.QuoteListScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,15 +41,30 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App(modifier: Modifier = Modifier) {
-    if (DataManager.isDataLoaded.value) {
-        QuoteListScreen(data = DataManager.data) {
 
+    if (DataManager.isDataLoaded.value) {
+
+
+        if (DataManager.currentPage.value == Pages.LISTING) {
+
+            QuoteListScreen(data = DataManager.data) {
+                DataManager.switchPages(it)
+
+            }
+        } else {
+            DataManager.currentQuote?.let { QouteDetails(quote = it) }
         }
+
     } else {
         Box(modifier = Modifier.fillMaxSize(1f)) {
             Text(text = "Loading....", style = MaterialTheme.typography.bodyLarge)
         }
 
     }
+}
+
+enum class Pages {
+    LISTING,
+    DETAIL
 }
 

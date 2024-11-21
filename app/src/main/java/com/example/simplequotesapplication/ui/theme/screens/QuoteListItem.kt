@@ -29,10 +29,12 @@ import com.example.simplequotesapplication.ui.theme.model.Quote
 
 
 @Composable
-fun QouteListItem(quote: Quote, onClick: ()->Unit) {
+fun QuoteListItem(quote: Quote, onClick: (quote: Quote) -> Unit) {
 
     Card(
-        modifier = Modifier.padding(8.dp).clickable { onClick() }
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable { onClick(quote) }
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
             Image(
